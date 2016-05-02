@@ -10,7 +10,7 @@ def data_download(company):
 
 
 def data_processing(downloaded_data):
-    """Returns processed data"""
+    """Returns list of processed data"""
     downloaded_data.next()  # removes row with column names
     data = list(downloaded_data)
     for row in data:
