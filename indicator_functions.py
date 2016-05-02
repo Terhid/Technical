@@ -14,7 +14,6 @@ def EMA(N, b1, b2, list):
         emalist.append(EMA)
 
     emalist = emalist[::-1]
-    print emalist
     return emalist
 
 
