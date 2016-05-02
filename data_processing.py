@@ -10,7 +10,11 @@ def data_download(company):
 
 
 def data_processing(downloaded_data):
-    """Returns list of processed data"""
+    """
+
+    :param downloaded_data:
+    :return: [date, opening price, max, min, closing price, volume] for all data points.
+    """
     downloaded_data.next()  # removes row with column names
     data = list(downloaded_data)
     for row in data:
@@ -18,3 +22,15 @@ def data_processing(downloaded_data):
             row[i] = float(row[i])
     processed_data = data[::-1]  # list inversion
     return processed_data
+
+def closing_prices(processed_data):
+    """
+
+    :param processed_data:
+    :return: list of closing prices
+    """
+    closing_prices_list = []
+    for i in range(len(processed_data)):
+        closing_prices_list.append(processed_data[i][4])
+    return closing_prices_list
+#print (data_processing(data_download('pkn')))
