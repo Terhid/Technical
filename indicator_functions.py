@@ -96,6 +96,7 @@ def fractal_alpha(n,data,i):
         alpha = 0.01
     return alpha
 
+
 def maxmin(list):
     """
 
