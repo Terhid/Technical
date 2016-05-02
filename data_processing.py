@@ -1,6 +1,5 @@
 import urllib2 as ur
 import csv
-import time
 
 
 def data_download(company):
@@ -19,4 +18,3 @@ def data_processing(downloaded_data):
             row[i] = float(row[i])
     processed_data = data[::-1]  # list inversion
     return processed_data
-
