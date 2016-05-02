@@ -20,7 +20,3 @@ def data_processing(downloaded_data):
     processed_data = data[::-1]  # list inversion
     return processed_data
 
-# company = raw_input('Enter company name: ')
-# data = data_download(company)
-# data = data_processing(data)
-
