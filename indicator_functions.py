@@ -28,4 +28,5 @@ for i in range(1000):
 
 dane_nieodwr=danelist[::-1]
 
+#chuj
 EMA(50, 1, 50, dane_nieodwr)
