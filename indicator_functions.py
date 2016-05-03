@@ -1,6 +1,6 @@
 import data_processing as dp
 import matplotlib.pyplot as plt
-import math
+import indicators_subsidiary_functions as isf
 
 
 def sma(n, data):
@@ -89,55 +89,13 @@ def frama(n, data):
     for i in range(len(data) - n + 1):
         numerator = 0
         denominator = 0
-        alpha = fractal_alpha(n, data, i)
+        alpha = isf.fractal_alpha(n, data, i)
         for j in range(i, i + n):
             numerator += (1 - alpha) ** (j-i) * data[j]
             denominator += (1 - alpha) ** (j-i)
         emalist.append(numerator / denominator)
 
     return emalist
-
-
-def fractal_alpha(n, data, i):
-    """
-    Subsidiary function for calculating FRAMA, that calculates the value of a variable alpha
-
-    :param n: FRAMA period
-    :param data: list of values (usually: opening or closing prices)
-    :param i: int of day, on which we calculate FRAMA
-    :return: the value of fractal dimension for a given day
-    """
-    w = -4.6
-    first_half_extrema = maxmin(data[i + n // 2:i + n])
-    second_half_extrema = maxmin(data[i:i + n // 2])
-    extrema = maxmin(data[i:i + n])
-    hl_1 = (first_half_extrema[0] - first_half_extrema[1]) / (0.5 * n)
-    hl_2 = (second_half_extrema[0] - second_half_extrema[1]) / (0.5 * n)
-    hl = (extrema[0] - extrema[1]) / n
-    d = (math.log(hl_1 + hl_2, math.e) - math.log(hl, math.e)) / math.log(2, math.e)
-    alpha = math.exp(w * (d - 1))
-    if alpha > 1:
-        alpha = 1
-    if alpha < 0.01:
-        alpha = 0.01
-    return alpha
-
-
-def maxmin(list):
-    """
-    Calculates maximum and minimum of a list
-
-    :param list: list of values
-    :return: tuple (max,min) containing max and min value for a given list
-    """
-    max = list[0]
-    min = list[0]
-    for i in range(len(list)):
-        if list[i] > max:
-            max = list[i]
-        if list[i] < min:
-            min = list[i]
-    return (max, min)
 
 
 def testing():
@@ -158,7 +116,7 @@ def testing():
 
     plt.plot(datalist)
     plt.plot(framaa)
-    plt.plot((smaa), color='red')
+    plt.plot(smaa, color='red')
     plt.plot(emalist, color='orange')
     plt.plot(demaa, color='black')
     plt.show()
