@@ -72,7 +72,7 @@ def dema(n, data):
     return demalist
 
 
-def frama(n, data):
+def frama(n, data, w=None):
     """
     Calculates Fractal Adaptive Moving Average (FRAMA)
 
@@ -81,15 +81,18 @@ def frama(n, data):
 
     :param n: FRAMA period
     :param data: list of values (usually: opening or closing prices)
+    :param w: W constant in alpha variable calculation in fractal_alpha(), default = -4.6
     :return: list of FRAMA(n) for given data for len(data - 2n) points
     """
     emalist = []
     n = int(n)
+    if w is None:
+        w = -4.6
 
     for i in range(len(data) - n + 1):
         numerator = 0
         denominator = 0
-        alpha = isf.fractal_alpha(n, data, i)
+        alpha = isf.fractal_alpha(n, data, i, w)
         for j in range(i, i + n):
             numerator += (1 - alpha) ** (j-i) * data[j]
             denominator += (1 - alpha) ** (j-i)
@@ -108,7 +111,7 @@ def testing():
     smaa = sma(50, datalist)
     emalist = ema(50, datalist)
     demaa = dema(50, datalist)
-    framaa = frama(50, datalist)
+    framaa = frama(50, datalist, w=-4.5)
     print(len(dema(50, datalist)))
     print len(emalist)
     print (len(smaa))

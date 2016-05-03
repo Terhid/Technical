@@ -1,7 +1,7 @@
 import math
 
 
-def fractal_alpha(n, data, i):
+def fractal_alpha(n, data, i, w):
     """
     Calculates the value of a variable alpha, used to calculate FRAMA
 
@@ -19,9 +19,9 @@ def fractal_alpha(n, data, i):
     :param n: FRAMA period
     :param data: list of values (usually: opening or closing prices)
     :param i: int of day, on which we calculate FRAMA
+    :param w: W constant
     :return: the value of fractal dimension for a given day
     """
-    w = -4.6
     first_half_extrema = maxmin(data[i + n // 2:i + n])
     second_half_extrema = maxmin(data[i:i + n // 2])
     extrema = maxmin(data[i:i + n])
