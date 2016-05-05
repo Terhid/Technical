@@ -1,6 +1,7 @@
 import data_processing as dp
 import matplotlib.pyplot as plt
 import indicators_subsidiary_functions as isf
+import numpy
 
 
 def sma(n, data):
@@ -101,6 +102,57 @@ def frama(n, data, w=None):
     return emalist
 
 
+def rsi(n, data):
+    """
+    Calculates Relative Strength Index (RSI)
+
+    Formula:
+    RSI = 100 - 100 / (1 + RS)
+    RS = Average Gain / Average Loss
+
+    :param n: RSI period
+    :param data: list of values (usually: opening or closing prices)
+    :return: list of RSI(n) for given data for len(data - n) points
+    """
+    n = int(n)
+    alpha = 2.0 / (n + 1)
+    rsilist = []
+
+    for i in range(len(data) - n):
+        for j in range(0, n):
+            denom_ups = 0
+            denom_downs = 0
+            enum_ups = 0
+            enum_downs = 0
+
+            if numpy.sign(data[i + j + 1] - data[i + j]) > 0:
+                enum_ups += (1 - alpha) ** j * (data[i + j + 1] - data[i + j])
+                denom_ups += (1 - alpha) ** j
+
+            else:
+                enum_downs += (1 - alpha) ** j * (data[i + j + 1] - data[i + j])
+                denom_downs += (1 - alpha) ** j
+
+        if denom_ups == 0:
+            denom_ups = 0.000000000000001
+        if denom_downs == 0:
+            denom_downs = 0.000000000000001
+
+        downs = enum_downs / denom_downs
+        ups = enum_ups / denom_ups
+
+        if ups == 0:
+            ups = 0.000000000000001
+        if downs == 0:
+            downs = 0.000000000000001
+
+        rs = abs(ups / downs)
+        rsi = 100 - (100 / (1 + rs))
+        rsilist.append(rsi)
+
+    return rsilist
+
+
 def testing():
     company = raw_input('Enter company name: ')
     data = dp.data_processing(dp.data_download(company))
@@ -112,10 +164,13 @@ def testing():
     emalist = ema(50, datalist)
     demaa = dema(50, datalist)
     framaa = frama(50, datalist, w=-4.5)
+    rsii = rsi(14, datalist)
     print(len(dema(50, datalist)))
     print len(emalist)
     print (len(smaa))
     print (len(framaa))
+    print(len(rsii))
+    print rsii
 
     plt.plot(datalist)
     plt.plot(framaa)
