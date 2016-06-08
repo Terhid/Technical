@@ -185,7 +185,7 @@ def testing():
     company = raw_input('Enter company name: ')
     data = dp.data_processing(dp.data_download(company))
     datalist = []
-    for i in range(1000):
+    for i in range(90):
         datalist.append(data[i][4])
 
     # smaa = sma(50, datalist)
@@ -200,7 +200,7 @@ def testing():
     # print (len(framaa))
     # print(len(rsii))
     # print(len(macdd))
-    stoch = stochastic_oscillator(5,datalist)
+    stoch = stochastic_oscillator(5, datalist)
     print (len(stoch))
     print (stoch)
 
