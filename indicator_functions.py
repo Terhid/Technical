@@ -117,12 +117,11 @@ def rsi(n, data):
     rsilist = []
 
     for i in range(len(data) - n):
+        denom_ups = 0
+        denom_downs = 0
+        enum_ups = 0
+        enum_downs = 0
         for j in range(0, n):
-            denom_ups = 0
-            denom_downs = 0
-            enum_ups = 0
-            enum_downs = 0
-
             if numpy.sign(data[i + j + 1] - data[i + j]) > 0:
                 enum_ups += (1 - alpha) ** j * (data[i + j + 1] - data[i + j])
                 denom_ups += (1 - alpha) ** j
