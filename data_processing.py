@@ -5,7 +5,6 @@ import csv
 def data_download(company):
     """
     Downloads .csv data for a given company from http://stooq.com
-
     :param company: string of 3-letter company stock abbreviation
     :return: downloaded data in .csv format with column names
     """
@@ -17,7 +16,6 @@ def data_download(company):
 def data_processing(downloaded_data):
     """
     Processes a .csv data for further use
-
     :param downloaded_data: data in .csv format with column names
     :return: list of lists [date, opening price, max, min, closing price, volume] for all data points.
     """
@@ -33,7 +31,6 @@ def data_processing(downloaded_data):
 def opening_prices(processed_data):
     """
     Extracts opening prices from processed data
-
     :param processed_data: data without column names processed by data_processing() function
     :return: list of opening prices
     """
@@ -46,7 +43,6 @@ def opening_prices(processed_data):
 def closing_prices(processed_data):
     """
     Extracts closing prices from processed data
-
     :param processed_data: data without column names processed by data_processing() function
     :return: list of closing prices
     """
@@ -59,7 +55,6 @@ def closing_prices(processed_data):
 def max_prices(processed_data):
     """
     Extracts max prices from processed data
-
     :param processed_data: data without column names processed by data_processing() function
     :return: list of max prices
     """
@@ -72,7 +67,6 @@ def max_prices(processed_data):
 def min_prices(processed_data):
     """
     Extracts min prices from processed data
-
     :param processed_data: data without column names processed by data_processing() function
     :return: list of min prices
     """
@@ -85,7 +79,6 @@ def min_prices(processed_data):
 def volume(processed_data):
     """
     Extracts volume values from processed data
-
     :param processed_data: data without column names processed by data_processing() function
     :return: list of volume values
     """

@@ -7,10 +7,8 @@ import numpy
 def sma(n, data):
     """
     Calculates Simple Moving Average (SMA)
-
     Formula:
     SMA(data_x, n) = (data_x + ... + data_(x + n)) / n, O(n^2)
-
     :param n: SMA Period
     :param data: list of values (usually: opening or closing prices)
     :return: list of SMA(n) for given data for len(data - n) points
@@ -29,11 +27,9 @@ def sma(n, data):
 def ema(n, data):
     """
     Calculates Exponential Moving Average (EMA)
-
     Formula:
     EMA(data_x, n, alpha) = ((1 - alpha)^0*data_x + (1 - alpha)^1*data_(x + 1) + ... + (1 - alpha)^n*data_(x + n)) /
     ((1 - alpha)^0 + ... + (1 - alpha)^n), O(n^2)
-
     :param n: EMA period
     :param data: list of values (usually: opening or closing prices)
     :return: list of EMA(n) for given data for len(data - n) points
@@ -55,10 +51,8 @@ def ema(n, data):
 def dema(n, data):
     """
     Calculates Double Exponential Moving Average (DEMA)
-
     Formula:
     DEMA(n) = 2*EMA(n) - EMA(EMA(n)), O(n^3)
-
     :param n: DEMA period
     :param data: list of values (usually: opening or closing prices)
     :return: list of DEMA(n) for given data for len(data - 2n) points
@@ -73,13 +67,11 @@ def dema(n, data):
     return demalist
 
 
-def frama(n, data, w=None):
+def frama(n, data, w=-4.6):
     """
     Calculates Fractal Adaptive Moving Average (FRAMA)
-
     Formula:
     FRAMA(n) = EMA(n), where alpha is the variable returned by fractal_alpha() function
-
     :param n: FRAMA period
     :param data: list of values (usually: opening or closing prices)
     :param w: W constant in alpha variable calculation in fractal_alpha(), default = -4.6
@@ -87,8 +79,6 @@ def frama(n, data, w=None):
     """
     emalist = []
     n = int(n)
-    if w is None:
-        w = -4.6
 
     for i in range(len(data) - n + 1):
         numerator = 0
@@ -105,11 +95,9 @@ def frama(n, data, w=None):
 def rsi(n, data):
     """
     Calculates Relative Strength Index (RSI)
-
     Formula:
     RSI = 100 - 100 / (1 + RS)
     RS = Average Gain / Average Loss
-
     :param n: RSI period
     :param data: list of values (usually: opening or closing prices)
     :return: list of RSI(n) for given data for len(data - n) points
@@ -172,6 +160,7 @@ def testing():
     print(len(rsii))
     print rsii
 
+    plt.style.use('ggplot')
     plt.plot(datalist)
     plt.plot(framaa)
     plt.plot(smaa, color='red')
