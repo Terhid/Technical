@@ -91,6 +91,9 @@ def frama(n, data, w=-4.6):
 
     return emalist
 
+def macd(n1,n2,data):
+
+
 
 def rsi(n, data):
     """
