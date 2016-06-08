@@ -91,30 +91,16 @@ def frama(n, data, w=-4.6):
 
     return emalist
 
+def macd(n1,n2,data):
 
-def macd(n1, n2, data):
-    """
-    Calculates MACD (Moving Average Convergence Divergence) from two EMAs.
 
-    :param n1: EMA1 period
-    :param n2: EMA2 period
-    :param data: list of values (usually: opening or closing prices)
-    :return: list of MACD for given data for len(data - (len(longer EMA) - len(shorter EMA))) points
-    """
-    macd = []
-    ema1 = ema(n1, data)
-    ema2 = ema(n2, data)
+    ema1 = ema(n1,data)
+    ema2 = ema(n2,data)
     if len(ema1) > len(ema2):
         ema1 = ema1[n2-n1:]
-        for i in range(len(ema1)):
-            macd.append(ema2[i] - ema1[i])
     if len(ema2) > len(ema1):
         ema2 = ema2[n1-n2:]
-        for i in range(len(ema1)):
-            macd.append(ema1[i] - ema2[i])
-
-    return macd
-
+    return ema1 - ema2
 
 def rsi(n, data):
     """
@@ -131,12 +117,12 @@ def rsi(n, data):
     rsilist = []
 
     for i in range(len(data) - n):
-        denom_ups = 0
-        denom_downs = 0
-        enum_ups = 0
-        enum_downs = 0
-
         for j in range(0, n):
+            denom_ups = 0
+            denom_downs = 0
+            enum_ups = 0
+            enum_downs = 0
+
             if numpy.sign(data[i + j + 1] - data[i + j]) > 0:
                 enum_ups += (1 - alpha) ** j * (data[i + j + 1] - data[i + j])
                 denom_ups += (1 - alpha) ** j
@@ -177,23 +163,19 @@ def testing():
     demaa = dema(50, datalist)
     framaa = frama(50, datalist, w=-4.5)
     rsii = rsi(14, datalist)
-    macdd = macd(12, 26, datalist)
     print(len(dema(50, datalist)))
     print len(emalist)
     print (len(smaa))
     print (len(framaa))
     print(len(rsii))
-    print(len(macdd))
-    print(macdd)
-    print(len(macdd) == len(ema(26, datalist)))
+    print rsii
 
     plt.style.use('ggplot')
     plt.plot(datalist)
     plt.plot(framaa)
-    plt.plot(smaa)
-    plt.plot(emalist)
-    plt.plot(demaa)
-    plt.plot(macdd)
+    plt.plot(smaa, color='red')
+    plt.plot(emalist, color='orange')
+    plt.plot(demaa, color='black')
     plt.show()
 
 
