@@ -48,6 +48,22 @@ def ema(n, data):
     return emalist
 
 
+def stochastic_oscillator(n, data):
+    """
+    Calculates stochastic oscillator
+    :param n:
+    :param data:
+    :return:
+    """
+    stochastic_oscillator = []
+    for i in range(len(data) - n + 1):
+        max, min = isf.maxmin(data[i:i + n])
+        k = 100 * (data[i] - min) / (max - min)
+        stochastic_oscillator.append(k)
+    d = sma(3, stochastic_oscillator)
+    return d
+
+
 def dema(n, data):
     """
     Calculates Double Exponential Moving Average (DEMA)
@@ -172,27 +188,30 @@ def testing():
     for i in range(1000):
         datalist.append(data[i][4])
 
-    smaa = sma(50, datalist)
-    emalist = ema(50, datalist)
-    demaa = dema(50, datalist)
-    framaa = frama(50, datalist, w=-4.5)
-    rsii = rsi(14, datalist)
-    macdd = macd(12, 26, datalist)
-    print(len(dema(50, datalist)))
-    print len(emalist)
-    print (len(smaa))
-    print (len(framaa))
-    print(len(rsii))
-    print(len(macdd))
-
+    # smaa = sma(50, datalist)
+    # emalist = ema(50, datalist)
+    # demaa = dema(50, datalist)
+    # framaa = frama(50, datalist, w=-4.5)
+    # rsii = rsi(14, datalist)
+    # macdd = macd(12, 26, datalist)
+    # print(len(dema(50, datalist)))
+    # print len(emalist)
+    # print (len(smaa))
+    # print (len(framaa))
+    # print(len(rsii))
+    # print(len(macdd))
+    stoch = stochastic_oscillator(5,datalist)
+    print (len(stoch))
+    print (stoch)
 
     plt.style.use('ggplot')
     plt.plot(datalist)
-    plt.plot(framaa)
-    plt.plot(smaa, color='red')
-    plt.plot(emalist, color='orange')
-    plt.plot(demaa, color='black')
-    plt.plot(macdd)
+    # plt.plot(framaa)
+    # plt.plot(smaa, color='red')
+    # plt.plot(emalist, color='orange')
+    # plt.plot(demaa, color='black')
+    # plt.plot(macdd)
+    plt.plot(stoch)
     plt.show()
 
 
