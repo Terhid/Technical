@@ -102,7 +102,6 @@ def macd(n1,n2,data):
         ema2 = ema2[n1-n2:]
     return ema1 - ema2
 
-
 def rsi(n, data):
     """
     Calculates Relative Strength Index (RSI)
