@@ -152,6 +152,10 @@ def rsi(n, data):
 
 
 def testing():
+    """
+    general testing function
+    :return:
+    """
     company = raw_input('Enter company name: ')
     data = dp.data_processing(dp.data_download(company))
     datalist = []
