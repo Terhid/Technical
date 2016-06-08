@@ -94,6 +94,13 @@ def frama(n, data, w=-4.6):
 def macd(n1,n2,data):
 
 
+    ema1 = ema(n1,data)
+    ema2 = ema(n2,data)
+    if len(ema1) > len(ema2):
+        ema1 = ema1[n2-n1:]
+    if len(ema2) > len(ema1):
+        ema2 = ema2[n1-n2:]
+    return ema1 - ema2
 
 
 def rsi(n, data):
