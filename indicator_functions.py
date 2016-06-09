@@ -48,22 +48,6 @@ def ema(n, data):
     return emalist
 
 
-def stochastic_oscillator(n, data):
-    """
-    Calculates stochastic oscillator
-    :param n:
-    :param data:
-    :return:
-    """
-    stochastic_oscillator = []
-    for i in range(len(data) - n + 1):
-        max, min = isf.maxmin(data[i:i + n])
-        k = 100 * (data[i] - min) / (max - min)
-        stochastic_oscillator.append(k)
-    d = sma(3, stochastic_oscillator)
-    return d
-
-
 def dema(n, data):
     """
     Calculates Double Exponential Moving Average (DEMA)
@@ -179,6 +163,22 @@ def rsi(n, data):
         rsilist.append(rsi)
 
     return rsilist
+
+
+def stochastic_oscillator(n, data):
+    """
+    Calculates stochastic oscillator
+    :param n:
+    :param data:
+    :return:
+    """
+    stochastic_oscillator = []
+    for i in range(len(data) - n + 1):
+        max, min = isf.maxmin(data[i:i + n])
+        k = 100 * (data[i] - min) / (max - min)
+        stochastic_oscillator.append(k)
+    d = sma(3, stochastic_oscillator)
+    return d
 
 
 def testing():

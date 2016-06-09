@@ -52,3 +52,17 @@ def maxmin(list):
         if list[i] < min:
             min = list[i]
     return (max, min)
+
+
+def stand_dev(list):
+    """
+    Calculates the standard deviation of a list
+
+    :param list: list of values
+    :return: float, the standard deviation from len(list)-period
+    """
+    mean = sum(list) / float(len(list))
+    deviations = []
+    for i in range(len(list)):
+        deviations.append((list[i] - mean) ** 2)
+    return (sum(deviations) / (len(deviations) - 1)) ** 0.5
