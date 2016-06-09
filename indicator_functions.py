@@ -168,8 +168,10 @@ def rsi(n, data):
 def stochastic_oscillator(n, data):
     """
     Calculates stochastic oscillator
-    :param n:
+    :param n: int
+        period
     :param data:
+
     :return:
     """
     stochastic_oscillator = []
@@ -183,21 +185,39 @@ def stochastic_oscillator(n, data):
 
 def bollinger_bands(n, data, k=2):
     """
-
-    :param n:
-    :param data:
-    :param k:
-    :return:
+    calculates bollinger band for given dataset
+    :param n: int
+        period
+    :param data: array
+        dataset
+    :param k: int
+        standard deviation multiplier
+    :return: tuple of arrays
+        returns tuple: upperband, lowerband
     """
+    simple_average = sma(n, data)
     upperband = []
     lowerband = []
-    for i in range(len(data) - n):
-        s = sma(n, data[i:i+n])
+    for i in range(len(data) - n + 1):
         stdev = isf.stand_dev(data[i:i+n])
-        upperband.append(s[i] + k * stdev)
-        lowerband.append(s[i] - k * stdev)
-    return (upperband, lowerband)
+        upperband.append(simple_average[i] + k * stdev)
+        lowerband.append(simple_average[i] - k * stdev)
+    return upperband, lowerband
 
+
+def commodity_channel_index(closing, max, min, n=12):
+    if len(closing) != len(max) or len(closing) != len(min):
+        raise ValueError('Lists of not equal length')
+    pt = []
+    stdev = []
+    cci = []
+    for i in closing:
+        pt.append((max[i] + min[i] + closing[i]) / 3.0)
+    simple = sma(n, pt)
+    for i in range(len(simple) - n + 1):
+        stdev.append(isf.stand_dev(simple[i:i+n]))
+        cci.append(1 / 0.015 * (pt[i] - simple[i]) / stdev[i])
+    return cci
 
 
 def testing():
@@ -222,7 +242,11 @@ def testing():
     stoch = stochastic_oscillator(5, datalist)
     print (len(stoch))
     print (stoch)
+    boll = bollinger_bands(15, datalist)
+    print (boll)
 
+    plt.plot(boll[1])
+    plt.plot(boll[0])
     plt.style.use('ggplot')
     plt.plot(datalist)
     # plt.plot(framaa)
@@ -230,7 +254,7 @@ def testing():
     # plt.plot(emalist, color='orange')
     # plt.plot(demaa, color='black')
     # plt.plot(macdd)
-    plt.plot(stoch)
+    #plt.plot(stoch)
     plt.show()
 
 
