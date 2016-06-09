@@ -206,23 +206,36 @@ def bollinger_bands(n, data, k=2):
 
 
 def commodity_channel_index(closing, max, min, n=12):
+    """
+
+    :param closing:
+    :param max:
+    :param min:
+    :param n:
+    :return:
+    """
     if len(closing) != len(max) or len(closing) != len(min):
         raise ValueError('Lists of not equal length')
     pt = []
-    stdev = []
+    meandev = []
     cci = []
-    for i in closing:
+    for i in range(len(closing)):
         pt.append((max[i] + min[i] + closing[i]) / 3.0)
     simple = sma(n, pt)
     for i in range(len(simple) - n + 1):
-        stdev.append(isf.stand_dev(simple[i:i+n]))
-        cci.append(1 / 0.015 * (pt[i] - simple[i]) / stdev[i])
+        meandev.append(isf.abs_mean_dev(pt[i:i+n]))
+        if meandev[i] == 0:
+            meandev[i] = 0.000000001
+        cci.append((pt[i] - simple[i]) / (meandev[i] * 0.015))
     return cci
 
 
 def testing():
     company = raw_input('Enter company name: ')
     data = dp.data_processing(dp.data_download(company))
+    closing = dp.closing_prices(data)[:90]
+    maxim =  dp.max_prices(data)[:90]
+    minim = dp.min_prices(data)[:90]
     datalist = []
     for i in range(90):
         datalist.append(data[i][4])
@@ -240,14 +253,16 @@ def testing():
     # print(len(rsii))
     # print(len(macdd))
     stoch = stochastic_oscillator(5, datalist)
-    print (len(stoch))
-    print (stoch)
     boll = bollinger_bands(15, datalist)
-    print (boll)
+    cci = commodity_channel_index(closing, maxim, minim)
+    print(len(cci))
+    print(cci)
 
+
+    plt.style.use('ggplot')
     plt.plot(boll[1])
     plt.plot(boll[0])
-    plt.style.use('ggplot')
+    plt.plot(cci)
     plt.plot(datalist)
     # plt.plot(framaa)
     # plt.plot(smaa, color='red')
@@ -255,6 +270,7 @@ def testing():
     # plt.plot(demaa, color='black')
     # plt.plot(macdd)
     #plt.plot(stoch)
+
     plt.show()
 
 
