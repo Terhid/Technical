@@ -181,6 +181,25 @@ def stochastic_oscillator(n, data):
     return d
 
 
+def bollinger_bands(n, data, k=2):
+    """
+
+    :param n:
+    :param data:
+    :param k:
+    :return:
+    """
+    upperband = []
+    lowerband = []
+    for i in range(len(data) - n):
+        s = sma(n, data[i:i+n])
+        stdev = isf.stand_dev(data[i:i+n])
+        upperband.append(s[i] + k * stdev)
+        lowerband.append(s[i] - k * stdev)
+    return (upperband, lowerband)
+
+
+
 def testing():
     company = raw_input('Enter company name: ')
     data = dp.data_processing(dp.data_download(company))
